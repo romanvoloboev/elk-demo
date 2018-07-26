@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+
+  rabbit:
+    image: rabbitmq:3.7.7-management-alpine
+    ports:
+    - 5672:5672
+    - 15672:15672
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    environment:
+    - discovery.type=single-node
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+    - "9200:9200"
+    - "9300:9300"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.3.2
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+    - ./src/main/resources/logstash:/etc/logstash/conf.d
+    ports:
+    - "5000:5000"
+    links:
+    - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.2
+    environment:
+    - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+    - "5601:5601"
+    links:
+    - elasticsearch
