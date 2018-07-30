@@ -10,61 +10,28 @@
     </appender>
 
     <appender name="AMQP_APPENDER" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <shortenedLoggerNameLength>36</shortenedLoggerNameLength>
-            <includeCallerData>true</includeCallerData>
-
-            <includeMdcKeyName>user.id</includeMdcKeyName>
-            <includeMdcKeyName>user.name</includeMdcKeyName>
-            <includeMdcKeyName>service.name</includeMdcKeyName>
-            <includeMdcKeyName>service.node</includeMdcKeyName>
-
-            <fieldNames>
-                <!--<timestamp>time</timestamp>-->
-                <levelValue>[ignore]</levelValue>
-                <stackTrace>trace</stackTrace>
-                <logger>class</logger>
-                <thread>thread</thread>
-                <caller>caller</caller>
-            </fieldNames>
-
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <timestamp/>
+                <pattern>
+                    <pattern>
+                        {
+                        "thread": "%thread",
+                        "level": "%level",
+                        "class": "%logger{36}",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+                <stackTrace>
+                    <fieldName>trace</fieldName>
+                </stackTrace>
+                <callerData>
+                    <classFieldName>classFieldName</classFieldName>
+                </callerData>
+            </providers>
         </encoder>
-
-
-
-
-        <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
-            <!--<providers>-->
-                <!--<mdc/>-->
-                <!--<timestamp/>-->
-                <!--<version/>-->
-                <!--<pattern>-->
-                    <!--<pattern>-->
-                        <!--{-->
-                        <!--"service": "test-app",-->
-                        <!--"node": "none",-->
-                        <!--"user.id": "#asLong{%mdc{user.id}}",-->
-                        <!--"user.name": "#asJson{%mdc{user.name}}",-->
-
-                        <!--"thread": "%thread",-->
-                        <!--"level": "%level",-->
-                        <!--"class": "%logger",-->
-                        <!--"message": "%message"-->
-                        <!--}-->
-                    <!--</pattern>-->
-                <!--</pattern>-->
-                <!--<stackTrace>-->
-                    <!--<throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">-->
-                        <!--<maxDepthPerThrowable>30</maxDepthPerThrowable>-->
-                        <!--<maxLength>2048</maxLength>-->
-                        <!--<shortenedClassNameLength>20</shortenedClassNameLength>-->
-                        <!--&lt;!&ndash;<exclude>^sun\.reflect\..*\.invoke</exclude>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<exclude>^net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>&ndash;&gt;-->
-                        <!--<rootCauseFirst>true</rootCauseFirst>-->
-                    <!--</throwableConverter>-->
-                <!--</stackTrace>-->
-            <!--</providers>-->
-        <!--</encoder>-->
 
 
         <!-- RabbitMQ connection -->
