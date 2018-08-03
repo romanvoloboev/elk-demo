@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 public class MyService {
     public void doSmth() {
         log.info("Do smth method called");
-        doSmth_2("heLLO!");
+
+        new Thread(() -> doSmth_2("heLLO runnable!")).start();
+
+
 
     }
 
     private void doSmth_2(String msg) {
         log.info("Dosmth_2: {}", msg);
-
         try {
             int a = 2/0;
         } catch (Exception e) {
