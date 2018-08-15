@@ -15,6 +15,7 @@
                 <mdc/>
                 <sequence/>
                 <timestamp/>
+                <stackTrace/>
                 <pattern>
                     <pattern>
                         {

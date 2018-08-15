@@ -22,7 +22,7 @@ public class Controller {
     @GetMapping("/test")
     public String test(@MDCValue("user.id")
                        @RequestHeader("userId") long id) {
-
+        log.info("Controller");
         myService.doSmth();
         return "OK";
     }
