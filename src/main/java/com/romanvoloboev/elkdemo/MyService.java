@@ -11,7 +11,7 @@ public class MyService {
 
         new Thread(() -> doSmth_2("heLLO runnable!")).start();
 
-
+        log.info("DONE");
 
     }
 

@@ -27,20 +27,16 @@ repositories {
 
 dependencies {
 
-//    compile fileTree(dir: 'libs', include: '*.jar')
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    compile group: 'io.github.georgwittberger', name: 'extend-mdc-spring-boot-starter', version: '1.0.0'
 
     compile('org.springframework.boot:spring-boot-starter-amqp')
     compile('org.springframework.boot:spring-boot-starter-web')
 
 
-    compile('io.github.georgwittberger:extend-mdc-spring-boot-starter:2.0')
-// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.0.3.RELEASE'
+    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.2'
 
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
 
-    compileOnly('org.projectlombok:lombok')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-
-    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.1'
 
 }
